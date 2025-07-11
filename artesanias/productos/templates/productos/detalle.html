@@ -1,0 +1,7 @@
+{% extends "core/base.html" %}
+{% block content %}
+<h2>{{ producto.nombre }}</h2>
+<img src="{{ producto.imagen.url }}" class="img-fluid mb-3">
+<p>{{ producto.descripcion }}</p>
+<a href="/productos/" class="btn btn-secondary">Volver</a>
+{% endblock %}

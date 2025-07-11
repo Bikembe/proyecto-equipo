@@ -1,0 +1,17 @@
+{% extends "core/base.html" %}
+{% block content %}
+<h1>Productos Destacados</h1>
+<div class="row">
+  {% for producto in productos %}
+    <div class="col-md-3">
+      <div class="card mb-4">
+        <img src="{{ producto.imagen.url }}" class="card-img-top">
+        <div class="card-body">
+          <h5>{{ producto.nombre }}</h5>
+          <p>{{ producto.descripcion|truncatechars:60 }}</p>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}
