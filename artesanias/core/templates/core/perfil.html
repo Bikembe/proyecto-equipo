@@ -1,0 +1,16 @@
+{% extends "core/base.html" %}
+{% csrf_token %}
+{% load static %}
+{% block content %}
+<h2>Mi Perfil</h2>
+<p><strong>Usuario:</strong> {{ usuario.username }}</p>
+<p><strong>Email:</strong> {{ usuario.email }}</p>
+
+{% if usuario.profile.imagen %}
+    <img src="{{ usuario.profile.imagen.url }}" style="width: 100px; height: 100px; border-radius: 50%;">
+{% else %}
+    <img src="{% static 'images/user.png' %}" style="width: 100px; height: 100px; border-radius: 50%;">
+{% endif %}
+
+<a href="{% url 'editar_perfil' %}" class="btn btn-primary">Editar perfil</a>
+{% endblock %}

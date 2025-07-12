@@ -1,7 +1,13 @@
 from django import forms
-from productos.models import Producto
+from django.contrib.auth.models import User
+from .models import Profile
 
-class ProductoForm(forms.ModelForm):
+class UserUpdateForm(forms.ModelForm):
     class Meta:
-        model = Producto
-        fields = ['nombre', 'descripcion', 'imagen', 'destacado']
+        model = User
+        fields = ['username', 'email']
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['imagen']  

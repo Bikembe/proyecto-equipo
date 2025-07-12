@@ -17,7 +17,31 @@
             <a href="/productos/">Producto</a>
             <a href="/contacto/">Contacto</a>
             <a href="/nosotros/">Nosotros</a>
-            <a href="/login/">Login</a>
+            {% if user.is_authenticated %}
+    <div class="user-info" style="display: inline-flex; align-items: center; gap: 10px;">
+        {% if user.profile.imagen %}
+            <img src="{{ user.profile.imagen.url }}" alt="Perfil" style="width: 35px; height: 35px; border-radius: 50%;">
+        {% else %}
+            <img src="{% static 'images/user.png' %}" alt="Perfil" style="width: 35px; height: 35px; border-radius: 50%;">
+        {% endif %}
+
+        {% if user.is_staff %}
+            <a href="/admin/">Administrar sitio</a>
+        {% else %}
+            <a href="{% url 'perfil_usuario' %}">{{ user.username }}</a>
+        {% endif %}
+
+        <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-sm btn-outline-secondary">Cerrar sesión</button>
+</form>
+
+    </div>
+{% else %}
+    <a href="{% url 'login' %}">Login</a>
+{% endif %}
+
+
         </nav>
     </header>
     <div class="container py-4">

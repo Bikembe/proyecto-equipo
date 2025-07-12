@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 class EnlaceSocial(models.Model):
@@ -7,3 +8,11 @@ class EnlaceSocial(models.Model):
 
     def __str__(self):
         return self.nombre
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    imagen = models.ImageField(upload_to='perfiles/', null=True, blank=True)
+
+    def __str__(self):
+        return self.user.username
+

@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Producto, Filtro
 
+from django.contrib.auth.decorators import login_required
+@login_required(login_url='/login/') 
 def detalle_producto(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
     filtros = Filtro.objects.all()
@@ -14,7 +16,7 @@ def detalle_producto(request, pk):
         'filtro_seleccionado': filtro_slug,
         'mas_productos': mas_productos,
     })
-
+@login_required(login_url='/login/') 
 def lista_productos(request):
     filtro_slug = request.GET.get('filtro')
     filtros = Filtro.objects.all()
