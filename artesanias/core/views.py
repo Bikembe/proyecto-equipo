@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.admin.views.decorators import staff_member_required
-from .models import EnlaceSocial
 from productos.models import Producto
 from .forms import ProductoForm
+from .models import EnlaceSocial
 
 def home(request):
     destacados = Producto.objects.filter(destacado=True)
@@ -36,3 +36,11 @@ def agregar_producto(request):
     else:
         form = ProductoForm()
     return render(request, 'core/agregar_producto.html', {'form': form})
+
+def contacto(request):
+    enlaces = EnlaceSocial.objects.all()
+    return render(request, 'core/contacto.html', {'enlaces': enlaces})
+
+def nosotros(request):
+    enlaces = EnlaceSocial.objects.all()
+    return render(request, 'core/nosotros.html', {'enlaces': enlaces})

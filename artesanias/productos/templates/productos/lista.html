@@ -1,18 +1,41 @@
 {% extends "core/base.html" %}
 {% load static %}
+
 {% block content %}
-<h2>Todos los productos</h2>
-<div class="row">
-  {% for producto in productos %}
-    <div class="col-md-3">
-      <div class="card mb-4">
-        <img src="{{ producto.imagen.url }}" class="card-img-top">
-        <div class="card-body">
-          <h5>{{ producto.nombre }}</h5>
-          <a href="{% url 'detalle_producto' producto.pk %}" class="btn btn-sm btn-primary">Ver</a>
-        </div>
+<h2 style="color: rgb(0, 0, 0);">Todos los productos</h2>
+<div style="display: flex; gap: 20px;">
+  <!-- Filtro lado izquierdo -->
+  <aside style="width: 200px; background: #fff8dc; padding: 10px; border-radius: 6px;">
+    <h4 style="color: rgb(0, 0, 0);">Filtrar por:</h4>
+    <ul style="list-style: none; padding-left: 0;">
+      <li>
+        <a href="{% url 'lista_productos' %}" class="{% if not filtro_seleccionado %}bold{% else %}normal{% endif %}">
+  Todos
+</a>
+      </li>
+      {% for filtro in filtros %}
+        <li>
+          <a href="?filtro={{ filtro.slug }}" class="{% if filtro.slug == filtro_seleccionado %}bold{% else %}normal{% endif %}">
+  {{ filtro.nombre }}
+</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </aside>
+
+  <!-- Productos lado derecho -->
+  <div style="flex-grow: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px;">
+    {% for producto in productos %}
+      <div class="producto-card">
+        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="max-width: 100%;">
+        <h5>{{ producto.nombre }}</h5>
+        <p>{{ producto.descripcion|truncatechars:50 }}</p>
+        <a href="{% url 'detalle_producto' producto.pk %}">Ver más</a>
       </div>
-    </div>
-  {% endfor %}
+    {% empty %}
+      <p>No hay productos para este filtro.</p>
+    {% endfor %}
+  </div>
 </div>
 {% endblock %}
+

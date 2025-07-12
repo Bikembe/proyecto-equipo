@@ -1,0 +1,21 @@
+{% extends "core/base.html" %}
+{% block content %}
+<h1>Contacto</h1>
+<p>Puedes contactarnos a través de las siguientes redes sociales:</p>
+<ul>
+  {% for enlace in enlaces %}
+    <li>
+      <a href="{{ enlace.url }}" target="_blank" style="display: inline-flex; align-items: center; gap: 8px;">
+        {% if enlace.imagen %}
+          <img src="{{ enlace.imagen.url }}" alt="{{ enlace.nombre }}" style="width: 48px; height: auto; vertical-align: middle;">
+        {% endif %}
+        {{ enlace.nombre }}
+      </a>
+    </li>
+  {% empty %}
+    <li>No hay enlaces sociales disponibles.</li>
+  {% endfor %}
+</ul>
+
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+{% block content %}
+<h1>Nosotros</h1>
+<p>Bienvenido a nuestra página. Aquí puedes colocar la información sobre tu empresa o proyecto.</p>
+<h3>Síguenos en nuestras redes sociales:</h3>
+<ul>
+  {% for enlace in enlaces %}
+    <li>
+      <a href="{{ enlace.url }}" target="_blank" style="display: inline-flex; align-items: center; gap: 8px;">
+        {% if enlace.imagen %}
+          <img src="{{ enlace.imagen.url }}" alt="{{ enlace.nombre }}" style="width: 48px; height: auto; vertical-align: middle;">
+        {% endif %}
+        {{ enlace.nombre }}
+      </a>
+    </li>
+  {% empty %}
+    <li>No hay enlaces sociales disponibles.</li>
+  {% endfor %}
+</ul>
+
+
+{% endblock %}
