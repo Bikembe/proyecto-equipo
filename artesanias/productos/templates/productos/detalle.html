@@ -1,7 +1,60 @@
 {% extends "core/base.html" %}
+{% load static %}
 {% block content %}
-<h2>{{ producto.nombre }}</h2>
-<img src="{{ producto.imagen.url }}" class="img-fluid mb-3">
-<p>{{ producto.descripcion }}</p>
-<a href="/productos/" class="btn btn-secondary">Volver</a>
+
+<div style="display: flex; gap: 20px; align-items: flex-start;">
+  <aside style="width: 200px; background: #fff8dc; padding: 10px; border-radius: 6px;">
+    <h4 style="color: rgb(0, 0, 0);">Filtrar por:</h4>
+    <ul style="list-style: none; padding-left: 0;">
+      <li>
+        <a href="{% url 'lista_productos' %}" class="{% if not filtro_seleccionado %}bold{% else %}normal{% endif %}">
+  Todos
+</a>
+      </li>
+      {% for filtro in filtros %}
+        <li>
+          <a href="?filtro={{ filtro.slug }}" class="{% if filtro.slug == filtro_seleccionado %}bold{% else %}normal{% endif %}">
+  {{ filtro.nombre }}
+</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </aside>
+
+  <div style="flex: 1;">
+    <div style="display: flex; gap: 20px; align-items: flex-start; margin-bottom: 40px;">
+      <div style="flex: 1;">
+        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="width: 100%; max-width: 300px; border-radius: 8px;">
+      </div>
+      <div style="flex: 2;">
+        <h2>{{ producto.nombre }}</h2>
+        <p>{{ producto.descripcion }}</p>
+        <a href="{% url 'lista_productos' %}" class="btn btn-secondary mt-3">Volver</a>
+      </div>
+    </div>
+
+    <hr>
+
+    <h3 class="mb-3">Más Artesanías</h3>
+    <div class="row">
+      {% for mas in mas_productos %}
+        {% if mas.id != producto.id %}
+          <div class="col-md-3 mb-4">
+            <div class="card h-100">
+              <a href="{% url 'detalle_producto' mas.pk %}">
+                <img src="{{ mas.imagen.url }}" class="card-img-top" alt="{{ mas.nombre }}">
+              </a>
+              <div class="card-body">
+                <h5 class="card-title">{{ mas.nombre }}</h5>
+                <p class="card-text">{{ mas.descripcion|truncatechars:60 }}</p>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
 {% endblock %}
+

@@ -4,7 +4,6 @@
 {% block content %}
 <h2 style="color: rgb(0, 0, 0);">Todos los productos</h2>
 <div style="display: flex; gap: 20px;">
-  <!-- Filtro lado izquierdo -->
   <aside style="width: 200px; background: #fff8dc; padding: 10px; border-radius: 6px;">
     <h4 style="color: rgb(0, 0, 0);">Filtrar por:</h4>
     <ul style="list-style: none; padding-left: 0;">
@@ -23,7 +22,6 @@
     </ul>
   </aside>
 
-  <!-- Productos lado derecho -->
   <div style="flex-grow: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px;">
     {% for producto in productos %}
       <div class="producto-card">
