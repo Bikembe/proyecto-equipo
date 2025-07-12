@@ -1,16 +1,6 @@
 {% extends "core/base.html" %}
 
 {% block content %}
-<<<<<<< HEAD
-<h2>Iniciar sesión</h2>
-<form method="post" action="{% url 'login' %}">
-  {% csrf_token %}
-  <input type="text" name="username" placeholder="Usuario" class="form-control mb-2" required>
-  <input type="password" name="password" placeholder="Contraseña" class="form-control mb-2" required>
-  <button class="btn btn-primary" type="submit">Entrar</button>
-</form>
-<p>¿No tienes cuenta? <a href="{% url 'register' %}">Regístrate aquí</a></p>
-=======
 <div class="my-5 p-4 rounded-3 shadow-sm mx-auto" style="background-color: #fff8dc; max-width: 500px;">
     <h2 class="display-5 text-center mb-4" style="color: black;">Iniciar Sesión</h2>
     <form method="post">
@@ -27,6 +17,7 @@
             <button class="btn btn-primary" type="submit">Entrar</button>
         </div>
     </form>
+  <p>¿No tienes cuenta? <a href="{% url 'register' %}">Regístrate aquí</a></p>
 </div>
 >>>>>>> 095e89ca5a1cdc9af7b53136bae4cdddce0c22ff
 {% endblock %}
