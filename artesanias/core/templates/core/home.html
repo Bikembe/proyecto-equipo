@@ -3,22 +3,27 @@
 
 {% block content %}
 
-<div style="text-align: center; margin-bottom: 40px;">
-  <img src="{% static 'images/banner.png' %}" alt="Banner principal" style="max-width: 90%; height: auto; border-radius: 10px;">
+<div class="text-center my-4">
+    <img src="{% static 'images/banner.png' %}" alt="Banner principal" class="img-fluid rounded-3 shadow-sm">
 </div>
 
-<h2 style="color: white; text-align: center; margin-bottom: 20px;">Productos Destacados</h2>
-<div style="overflow-x: auto; display: flex; gap: 20px; padding: 20px;">
-  {% for producto in productos %}
-    {% if producto.destacado %}
-      <div style="min-width: 200px; background: #fff8dc; border-radius: 8px; padding: 10px; text-align: center;">
-        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="max-width: 100%; height: 150px; object-fit: cover; border-radius: 6px;">
-        <h5 style="margin-top: 10px; color: #333;">{{ producto.nombre }}</h5>
-        <p style="font-size: 14px; color: #666;">{{ producto.descripcion|truncatechars:60 }}</p>
-      </div>
-    {% endif %}
-  {% endfor %}
+<h2 class="text-center my-4 display-5 text-white">Productos Destacados</h2>
+
+<div class="d-flex overflow-auto pb-3 custom-highlight-scroll">
+    {% for producto in productos %}
+        {% if producto.destacado %}
+            <div class="card flex-shrink-0 mx-2 shadow-sm" style="width: 200px; background-color: #fff8dc;">
+                {% if producto.imagen %}
+                    <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}" style="height: 150px; object-fit: cover;">
+                {% endif %}
+                <div class="card-body text-center">
+                    <h5 class="card-title text-dark">{{ producto.nombre }}</h5>
+                    <p class="card-text text-muted small">{{ producto.descripcion|truncatechars:60 }}</p>
+                    <a href="{% url 'detalle_producto' producto.pk %}" class="btn btn-sm btn-primary mt-2">Ver más</a>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
 </div>
 
 {% endblock %}
-
