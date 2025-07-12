@@ -1,10 +1,21 @@
 {% extends "core/base.html" %}
+
 {% block content %}
-<h2>Iniciar sesión</h2>
-<form method="post">
-  {% csrf_token %}
-  <input type="text" name="username" placeholder="Usuario" class="form-control mb-2">
-  <input type="password" name="password" placeholder="Contraseña" class="form-control mb-2">
-  <button class="btn btn-primary" type="submit">Entrar</button>
-</form>
+<div class="my-5 p-4 rounded-3 shadow-sm mx-auto" style="background-color: #fff8dc; max-width: 500px;">
+    <h2 class="display-5 text-center mb-4" style="color: black;">Iniciar Sesión</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="usernameInput" class="form-label visually-hidden">Usuario</label>
+            <input type="text" name="username" id="usernameInput" placeholder="Usuario" class="form-control">
+        </div>
+        <div class="mb-3">
+            <label for="passwordInput" class="form-label visually-hidden">Contraseña</label>
+            <input type="password" name="password" id="passwordInput" placeholder="Contraseña" class="form-control">
+        </div>
+        <div class="d-grid">
+            <button class="btn btn-primary" type="submit">Entrar</button>
+        </div>
+    </form>
+</div>
 {% endblock %}
