@@ -10,26 +10,38 @@
     <ul style="list-style: none; padding-left: 0;">
       <li>
         <a href="{% url 'lista_productos' %}" class="{% if not filtro_seleccionado %}bold{% else %}normal{% endif %}">
-  Todos
-</a>
+          Todos
+        </a>
       </li>
       {% for filtro in filtros %}
         <li>
           <a href="?filtro={{ filtro.slug }}" class="{% if filtro.slug == filtro_seleccionado %}bold{% else %}normal{% endif %}">
-  {{ filtro.nombre }}
-</a>
+            {{ filtro.nombre }}
+          </a>
         </li>
       {% endfor %}
     </ul>
   </aside>
 
-  <div style="flex-grow: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px;">
+  <div style="flex-grow: 1; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 15px;">
     {% for producto in productos %}
-      <div class="producto-card">
-        <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="max-width: 100%;">
-        <h5>{{ producto.nombre }}</h5>
-        <p>{{ producto.descripcion|truncatechars:50 }}</p>
-        <a href="{% url 'detalle_producto' producto.pk %}">Ver más</a>
+      <div class="producto-card" style="border: 1px solid #ddd; border-radius: 6px; padding: 10px; display: flex; flex-direction: column; justify-content: space-between; height: 350px;">
+        <div>
+          <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="max-width: 100%; height: 150px; object-fit: cover; border-radius: 4px;">
+          <h5 style="margin-top: 10px;">{{ producto.nombre }}</h5>
+          <p style="min-height: 50px;">{{ producto.descripcion|truncatechars:50 }}</p>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: auto;">
+          <a href="{% url 'detalle_producto' producto.pk %}" style="flex: 1; text-align: center; padding: 8px 0; background: #4a7c59; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+            Ver más
+          </a>
+          <form action="{% url 'agregar_carrito' producto.pk %}" method="post" style="flex: 1; margin: 0;">
+            {% csrf_token %}
+            <button type="submit" style="width: 100%; padding: 8px 0; background: #6b705c; color: white; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">
+              Agregar al carrito
+            </button>
+          </form>
+        </div>
       </div>
     {% empty %}
       <p>No existen productos para este filtro.</p>
@@ -37,4 +49,5 @@
   </div>
 </div>
 {% endblock %}
+
 

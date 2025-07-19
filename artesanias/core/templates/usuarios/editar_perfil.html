@@ -1,0 +1,44 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% block content %}
+
+<h2>Editar Perfil</h2>
+
+<form method="post" enctype="multipart/form-data" style="max-width: 500px;">
+  {% csrf_token %}
+  
+  <div class="mb-3">
+    <label for="username" class="form-label">Nombre de Usuario</label>
+    <input type="text" class="form-control" id="username" name="username" value="{{ usuario.username }}" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="email" class="form-label">Correo Electrónico</label>
+    <input type="email" class="form-control" id="email" name="email" value="{{ usuario.email }}" required>
+  </div>
+
+  <div class="mb-3">
+    <label for="imagen" class="form-label">Foto de Perfil</label><br>
+    {% if usuario.profile.imagen %}
+      <img src="{{ usuario.profile.imagen.url }}" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 10px;">
+    {% else %}
+      <img src="{% static 'images/user.png' %}" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 10px;">
+    {% endif %}
+    <input type="file" class="form-control" id="imagen" name="imagen">
+  </div>
+
+  <div class="mb-3">
+    <label for="password1" class="form-label">Nueva Contraseña</label>
+    <input type="password" class="form-control" id="password1" name="password1">
+  </div>
+
+  <div class="mb-3">
+    <label for="password2" class="form-label">Confirmar Nueva Contraseña</label>
+    <input type="password" class="form-control" id="password2" name="password2">
+  </div>
+
+  <button type="submit" class="btn btn-success">Guardar Cambios</button>
+  <a href="{% url 'perfil_usuario' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+
+{% endblock %}

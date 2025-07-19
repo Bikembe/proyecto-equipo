@@ -2,15 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.admin.views.decorators import staff_member_required
 from productos.models import Producto
-from .models import EnlaceSocial
-from django.contrib.auth.decorators import login_required
+from .models import EnlaceSocial, Profile
 from django.contrib.auth.forms import UserCreationForm
-from .forms import ProfileUpdateForm
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import logout
+from django.contrib import messages
 
 
-@login_required(login_url='/login/') 
 def home(request):
     destacados = Producto.objects.filter(destacado=True)
     redes = EnlaceSocial.objects.all()
@@ -37,11 +35,10 @@ def logout_view(request):
 def dashboard(request):
     return render(request, 'core/dashboard.html')
 
-@login_required(login_url='/login/') 
 def contacto(request):
     enlaces = EnlaceSocial.objects.all()
     return render(request, 'core/contacto.html', {'enlaces': enlaces})
-@login_required(login_url='/login/') 
+
 def nosotros(request):
     enlaces = EnlaceSocial.objects.all()
     return render(request, 'core/nosotros.html', {'enlaces': enlaces})
@@ -56,24 +53,40 @@ def register(request):
         form = UserCreationForm()
     return render(request, 'core/register.html', {'form': form})
 
-@login_required(login_url='/login/')
 def perfil_usuario(request):
     return render(request, 'core/perfil.html', {'usuario': request.user})
 
-@login_required(login_url='/login/')
 def editar_perfil(request):
-    profile = getattr(request.user, 'profile', None)
-    if not profile:
-        return redirect('perfil_usuario')  # O crea el perfil si no existe
-
     if request.method == 'POST':
-        form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
-        if form.is_valid():
-            form.save()
-            return redirect('perfil_usuario')
-    else:
-        form = ProfileUpdateForm(instance=profile)
+        username = request.POST.get('username')
+        email = request.POST.get('email')
+        imagen = request.FILES.get('imagen')
+        password1 = request.POST.get('password1')
+        password2 = request.POST.get('password2')
 
-    return render(request, 'core/editar_perfil.html', {
-        'form': form
-    })
+        user = request.user
+        user.username = username
+        user.email = email
+        user.save()
+
+        # Imagen de perfil
+        profile, _ = Profile.objects.get_or_create(user=user)
+        if imagen:
+            profile.imagen = imagen
+            profile.save()
+
+        # Cambio de contraseña
+        if password1 and password2:
+            if password1 == password2:
+                user.set_password(password1)
+                user.save()
+                messages.success(request, 'Perfil actualizado. Debes volver a iniciar sesión con tu nueva contraseña.')
+                return redirect('login')
+            else:
+                messages.error(request, 'Las contraseñas no coinciden.')
+                return redirect('editar_perfil')
+
+        messages.success(request, 'Perfil actualizado correctamente.')
+        return redirect('perfil_usuario')
+
+    return render(request, 'usuarios/editar_perfil.html', {'usuario': request.user})

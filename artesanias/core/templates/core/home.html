@@ -9,17 +9,19 @@
 
 <h2 class="text-center my-4 display-5 text-white">Productos Destacados</h2>
 
-<div class="d-flex overflow-auto pb-3 custom-highlight-scroll">
+<div class="d-flex overflow-auto pb-3 custom-highlight-scroll" style="gap: 15px;">
     {% for producto in productos %}
         {% if producto.destacado %}
-            <div class="card flex-shrink-0 mx-2 shadow-sm" style="width: 200px; background-color: #fff8dc;">
+            <div class="card flex-shrink-0 shadow-sm" style="width: 220px; background-color: #fff8dc; display: flex; flex-direction: column; justify-content: space-between; height: 350px;">
                 {% if producto.imagen %}
-                    <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}" style="height: 150px; object-fit: cover;">
+                    <img src="{{ producto.imagen.url }}" class="card-img-top" alt="{{ producto.nombre }}" style="height: 150px; object-fit: cover; border-top-left-radius: .25rem; border-top-right-radius: .25rem;">
                 {% endif %}
-                <div class="card-body text-center">
+                <div class="card-body text-center d-flex flex-column">
                     <h5 class="card-title text-dark">{{ producto.nombre }}</h5>
-                    <p class="card-text text-muted small">{{ producto.descripcion|truncatechars:60 }}</p>
-                    <a href="{% url 'detalle_producto' producto.pk %}" class="btn btn-sm btn-primary mt-2">Ver más</a>
+                    <p class="card-text text-muted small" style="min-height: 50px;">{{ producto.descripcion|truncatechars:60 }}</p>
+                    <div style="margin-top: auto; display: flex; gap: 10px;">
+                        <a href="{% url 'detalle_producto' producto.pk %}" class="btn btn-primary btn-sm flex-fill" style="font-weight: 600;">Ver más</a>
+                    </div>
                 </div>
             </div>
         {% endif %}
@@ -27,3 +29,4 @@
 </div>
 
 {% endblock %}
+

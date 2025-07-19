@@ -8,14 +8,14 @@
     <ul style="list-style: none; padding-left: 0;">
       <li>
         <a href="{% url 'lista_productos' %}" class="{% if not filtro_seleccionado %}bold{% else %}normal{% endif %}">
-  Todos
-</a>
+          Todos
+        </a>
       </li>
       {% for filtro in filtros %}
         <li>
           <a href="?filtro={{ filtro.slug }}" class="{% if filtro.slug == filtro_seleccionado %}bold{% else %}normal{% endif %}">
-  {{ filtro.nombre }}
-</a>
+            {{ filtro.nombre }}
+          </a>
         </li>
       {% endfor %}
     </ul>
@@ -29,6 +29,10 @@
       <div style="flex: 2;">
         <h2>{{ producto.nombre }}</h2>
         <p>{{ producto.descripcion }}</p>
+        <form action="{% url 'agregar_carrito' producto.pk %}" method="post" style="margin-top: 20px;">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-success">Agregar al carrito</button>
+        </form>
         <a href="{% url 'lista_productos' %}" class="btn btn-secondary mt-3">Volver</a>
       </div>
     </div>
@@ -57,4 +61,5 @@
 </div>
 
 {% endblock %}
+
 

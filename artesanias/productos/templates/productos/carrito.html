@@ -1,0 +1,111 @@
+{% extends "core/base.html" %}
+{% block content %}
+<style>
+  .carrito-container {
+    max-width: 700px;
+    margin: auto;
+    background: #edd8b4;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgb(0 0 0 / 0.1);
+  }
+  .carrito-list {
+    list-style: none;
+    padding: 0;
+  }
+  .carrito-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1d4c4f;
+    margin-bottom: 12px;
+    padding: 12px 15px;
+    border-radius: 6px;
+    box-shadow: 0 1px 5px rgb(0 0 0 / 0.05);
+  }
+  .carrito-list li form button {
+    background: #dc3545;
+    border: none;
+    color: rgb(255, 255, 255);
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  .total-section {
+    color: #1d4c4f;
+    text-align: right;
+    font-size: 1.2em;
+    margin: 20px 0;
+  }
+  .btn-vaciar, .btn-comprar {
+    background: #6c757d;
+    border: none;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    margin-right: 12px;
+    transition: background-color 0.3s ease;
+  }
+  .btn-vaciar:hover {
+    background: #5a6268;
+  }
+  .btn-comprar {
+    background: #198754;
+  }
+  .btn-comprar:hover {
+    background: #157347;
+  }
+  .mensaje-compra {
+    background: #d1e7dd;
+    color: #0f5132;
+    border: 1px solid #badbcc;
+    padding: 12px 20px;
+    border-radius: 6px;
+    max-width: 700px;
+    margin: 20px auto;
+    font-weight: 600;
+    text-align: center;
+  }
+</style>
+
+<div class="carrito-container">
+  <h1>Carrito de Compras</h1>
+
+  {% if items %}
+    <ul class="carrito-list">
+      {% for item in items %}
+        <li>
+          <div>{{ item.producto.nombre }} - ${{ item.producto.precio }} x {{ item.cantidad }} = ${{ item.total }}</div>
+          <form action="{% url 'eliminar_carrito' item.id %}" method="post" style="margin:0;">
+            {% csrf_token %}
+            <button type="submit">Eliminar</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+    <div class="total-section">
+      <strong>Total:</strong> ${{ total }}
+    </div>
+
+    <form action="{% url 'limpiar_carrito' %}" method="post" style="display: inline;">
+      {% csrf_token %}
+      <button type="submit" class="btn-vaciar">Vaciar carrito</button>
+    </form>
+
+    <form action="{% url 'completar_compra' %}" method="post" style="display: inline;">
+      {% csrf_token %}
+      <button type="submit" class="btn-comprar">Completar compra</button>
+    </form>
+
+  {% else %}
+    <p>Tu carrito está vacío.</p>
+  {% endif %}
+
+  {% if mensaje %}
+    <div class="mensaje-compra">{{ mensaje }}</div>
+  {% endif %}
+</div>
+{% endblock %}
